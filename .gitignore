@@ -26,5 +26,6 @@ gradle.xml
 *.xml
 *.iml
 .gradle/*
+.idea/*
 build/*
 vcs.xml
