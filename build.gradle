@@ -48,4 +48,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.5'
 }
 
-
+task stage {
+    dependsOn 'clean'
+    dependsOn 'build'
+    dependsOn 'bootRun'
+}
