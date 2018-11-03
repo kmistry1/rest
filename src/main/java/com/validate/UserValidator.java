@@ -4,6 +4,10 @@ import com.validate.aes.IEncryptionLoop;
 import com.validate.user.Users;
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class UserValidator {
@@ -41,7 +45,7 @@ public class UserValidator {
             }
 
             if(user.equals(username)){
-                if(checkForpassword(getPassword())){
+                if(checkForpassword()){
                     return "username and password is valid";
                 }
             }
@@ -49,25 +53,49 @@ public class UserValidator {
         return "username or password is invalid";
     }
 
-    private boolean checkForpassword(String password) {
-        Users validUsers = new Users();
-        ArrayList<String> passwords = validUsers.getValidPasswors();
+    private boolean checkForpassword() {
+
+        String password = null;
+
+        try {
+            password = getPasswordFromDB();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         if(StringUtils.isBlank(password)){
             return false;
         }
-        for(String pass:passwords){
-
             try {
-                pass = IEncryptionLoop.decrypt(pass);
+                password = IEncryptionLoop.decrypt(password);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            if(password.equals(password)){
+            if(password.equals(getPassword())) {
                 return true;
             }
-        }
         return false;
+    }
+
+    protected String getPasswordFromDB() throws SQLException, ClassNotFoundException {
+
+        String password=null;
+        Class.forName("com.mysql.jdbc.Driver");
+        java.sql.Connection con = DriverManager.getConnection(
+                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/rest", "sunny", "ajxx2020");
+
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from users where userName="+getUserName());
+
+
+
+        while (rs.next()) {
+            password = rs.getString("password");
+        }
+        rs.close();
+        return password;
     }
 
     public String getUserValidation(){

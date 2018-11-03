@@ -117,7 +117,7 @@ class Encryption {
 
         Class.forName("com.mysql.jdbc.Driver");
         java.sql.Connection con = DriverManager.getConnection(
-                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/rest", "sunny", "ajxx2020");
+                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/encryption", "aesencryption", "qazmlp1947");
 
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from aes_encryption where id = 1");
