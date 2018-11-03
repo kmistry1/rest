@@ -15,7 +15,7 @@ import org.apache.commons.codec.binary.Base64;
 class Encryption {
     private static final String password = "dfhsdhsdfhsdfhsdfhsdfhsdfhdshsfhxfhxdhdthxdghdthsdthx";
     private static String salt;
-    private static int pswdIterations = 93759;
+    private static int pswdIterations = 1024;
     private static int keySize = 256;
     private static int saltlength = 275;
     private static byte[] ivBytes;

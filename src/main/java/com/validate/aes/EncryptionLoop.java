@@ -7,11 +7,11 @@ package com.validate.aes;
 
 
     protected static String getSecureEncryptedString(String encrypt) throws Exception {
-        for (int i = 0; i < loop; i++) {
-            encrypt = encryption.encrypt(encrypt);
-        }
-        return encrypt;
-    }
+         for (int i = 0; i < loop; i++) {
+             encrypt = encryption.encrypt(encrypt);
+         }
+         return encrypt;
+     }
 
     protected static String getSecureDecryptString(String decrypt) throws Exception {
         for (int i = 0; i < loop; i++) {
