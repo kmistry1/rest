@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 class Encryption {
-    private String password;
+    private String password = null;
     private  String salt;
     private  int pswdIterations;
     private  int keySize;
@@ -56,10 +56,6 @@ class Encryption {
         ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
         byte[] encryptedTextBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
 
-        // Base64 for Android
-        //String encodedText = Base64.encodeToString(encryptedTextBytes, Base64.DEFAULT);
-
-        // Base64 for Java
         String encodedText = Base64.encodeBase64String(encryptedTextBytes);
         String encodedIV = Base64.encodeBase64String(ivBytes);
         String encodedSalt = Base64.encodeBase64String(saltBytes);
