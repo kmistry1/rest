@@ -5,6 +5,10 @@ package com.validate.aes;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -13,22 +17,23 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 class Encryption {
-    private static final String password = "dfhsdhsdfhsdfhsdfhsdfhsdfhdshsfhxfhxdhdthxdghdthsdthx";
-    private static String salt;
-    private static int pswdIterations = 1024;
-    private static int keySize = 256;
-    private static int saltlength = 275;
-    private static byte[] ivBytes;
+    private String password;
+    private  String salt;
+    private  int pswdIterations;
+    private  int keySize;
+    private  int saltlength;
+    private  byte[] ivBytes;
 
 
     // Methods
-    public static String encrypt(String plainText) throws Exception {
+    public  String encrypt(String plainText) throws Exception {
         return getEncryptedString(plainText);
 
     }
 
-    protected static String getEncryptedString(String plainText) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, java.security.spec.InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException {
+    protected String getEncryptedString(String plainText) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, java.security.spec.InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, SQLException, ClassNotFoundException {
         //get salt
+        setValues();
         salt = generateSalt();
         byte[] saltBytes = salt.getBytes("UTF-8");
 
@@ -62,12 +67,13 @@ class Encryption {
         return encodedPackage;
     }
 
-    static String decrypt(String encryptedText) throws Exception {
+     String decrypt(String encryptedText) throws Exception {
 
         return getDecryptedString(encryptedText);
     }
 
-    protected static String getDecryptedString(String encryptedText) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+    protected  String getDecryptedString(String encryptedText) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, SQLException, ClassNotFoundException {
+        setValues();
         String[] fields = encryptedText.split("]");
         byte[] saltBytes = Base64.decodeBase64(fields[0]);
         ivBytes = Base64.decodeBase64(fields[1]);
@@ -102,10 +108,50 @@ class Encryption {
         return new String(decryptedTextBytes);
     }
 
-    static String generateSalt() {
+     String generateSalt() {
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[saltlength];
         random.nextBytes(bytes);
         return new String(bytes);
+    }
+
+
+
+    protected void setValues() throws SQLException, ClassNotFoundException {
+
+        Class.forName("com.mysql.jdbc.Driver");
+        java.sql.Connection con = DriverManager.getConnection(
+                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/rest", "sunny", "ajxx2020");
+
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from aes_encryption where id = 1");
+
+
+
+        while (rs.next()) {
+            setPassword(rs.getString("aes_key"));
+            setPswdIterations(rs.getInt("Iterations"));
+            setKeySize(rs.getInt("Size"));
+            setSaltlength(rs.getInt("Length"));
+        }
+        rs.close();
+
+    }
+
+
+
+    private void setPassword(String password){
+        this.password = password;
+    }
+
+    private void setPswdIterations(int pswdIterations){
+        this.pswdIterations = pswdIterations;
+    }
+    private void setKeySize(int keySize){
+        this.keySize = keySize;
+    }
+
+    private void setSaltlength(int saltlength){
+        this.saltlength = saltlength;
     }
 }
