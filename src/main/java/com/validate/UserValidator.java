@@ -1,5 +1,6 @@
 package com.validate;
 
+import com.validate.aes.IEncryptionLoop;
 import com.validate.user.Users;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +28,11 @@ public class UserValidator {
 
         for(String user:users){
 
+            try {
+                user = IEncryptionLoop.decrypt(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if(user.equals(username)){
                 return "username is valid";
             }
