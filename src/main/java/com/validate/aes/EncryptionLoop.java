@@ -1,17 +1,16 @@
 package com.validate.aes;
 
 
- class EncryptionLoop implements IEncryptionLoop{
-     private static int loop = 5;
-    static Encryption encryption =  new Encryption();
-
+class EncryptionLoop implements IEncryptionLoop {
+    static Encryption encryption = new Encryption();
+    private static int loop = 5;
 
     protected static String getSecureEncryptedString(String encrypt) throws Exception {
-         for (int i = 0; i < loop; i++) {
-             encrypt = encryption.encrypt(encrypt);
-         }
-         return encrypt;
-     }
+        for (int i = 0; i < loop; i++) {
+            encrypt = encryption.encrypt(encrypt);
+        }
+        return encrypt;
+    }
 
     protected static String getSecureDecryptString(String decrypt) throws Exception {
         for (int i = 0; i < loop; i++) {

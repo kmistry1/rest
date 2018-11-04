@@ -1,7 +1,12 @@
 package com.validate.aes;
 
 
+import org.apache.commons.codec.binary.Base64;
 
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -10,23 +15,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
-
 class Encryption {
     private String password = null;
-    private  String salt;
-    private  int pswdIterations;
-    private  int keySize;
-    private  int saltlength;
-    private  byte[] ivBytes;
+    private String salt;
+    private int pswdIterations;
+    private int keySize;
+    private int saltlength;
+    private byte[] ivBytes;
 
 
     // Methods
-    public  String encrypt(String plainText) throws Exception {
+    public String encrypt(String plainText) throws Exception {
         return getEncryptedString(plainText);
 
     }
@@ -63,12 +62,12 @@ class Encryption {
         return encodedPackage;
     }
 
-     String decrypt(String encryptedText) throws Exception {
+    String decrypt(String encryptedText) throws Exception {
 
         return getDecryptedString(encryptedText);
     }
 
-    protected  String getDecryptedString(String encryptedText) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, SQLException, ClassNotFoundException {
+    protected String getDecryptedString(String encryptedText) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, SQLException, ClassNotFoundException {
         setValues();
         String[] fields = encryptedText.split("]");
         byte[] saltBytes = Base64.decodeBase64(fields[0]);
@@ -104,13 +103,12 @@ class Encryption {
         return new String(decryptedTextBytes);
     }
 
-     String generateSalt() {
+    String generateSalt() {
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[saltlength];
         random.nextBytes(bytes);
         return new String(bytes);
     }
-
 
 
     protected void setValues() throws SQLException, ClassNotFoundException {
@@ -121,7 +119,6 @@ class Encryption {
 
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from aes_encryption where id = 1");
-
 
 
         while (rs.next()) {
@@ -135,19 +132,19 @@ class Encryption {
     }
 
 
-
-    private void setPassword(String password){
+    private void setPassword(String password) {
         this.password = password;
     }
 
-    private void setPswdIterations(int pswdIterations){
+    private void setPswdIterations(int pswdIterations) {
         this.pswdIterations = pswdIterations;
     }
-    private void setKeySize(int keySize){
+
+    private void setKeySize(int keySize) {
         this.keySize = keySize;
     }
 
-    private void setSaltlength(int saltlength){
+    private void setSaltlength(int saltlength) {
         this.saltlength = saltlength;
     }
 }

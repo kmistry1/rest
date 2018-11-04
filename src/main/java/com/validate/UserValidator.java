@@ -13,28 +13,28 @@ public class UserValidator {
     private String userName;
     private String password;
 
-    public String getUserName(){
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String name){
+    public void setUserName(String name) {
         this.userName = name;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    private String checkForNullOrEmpty(String username,String password) throws Exception {
+    private String checkForNullOrEmpty(String username, String password) throws Exception {
 
-        if(StringUtils.isBlank(username)){
+        if (StringUtils.isBlank(username)) {
             return "username or password cannot be null, blank or empty";
-        }else {
-            if(checkForpassword(username,password)){
+        } else {
+            if (checkForpassword(username, password)) {
                 return "username and password is valid";
             }
         }
@@ -43,28 +43,26 @@ public class UserValidator {
         return "username and password is invalid";
 
 
-
-
     }
 
     private boolean checkForpassword(String userName, String password) throws Exception {
 
-            String passwordFromDB = getPasswordFromDB(userName);
+        String passwordFromDB = getPasswordFromDB(userName);
 
 
-        if(StringUtils.isBlank(password)||StringUtils.isBlank(passwordFromDB)){
+        if (StringUtils.isBlank(password) || StringUtils.isBlank(passwordFromDB)) {
             return false;
         }
 
-            if(password.equals(IEncryptionLoop.decrypt(passwordFromDB))) {
-                return true;
-            }
+        if (password.equals(IEncryptionLoop.decrypt(passwordFromDB))) {
+            return true;
+        }
         return false;
     }
 
     protected String getPasswordFromDB(String userName) throws SQLException, ClassNotFoundException {
 
-        String password=null;
+        String password = null;
         Class.forName("com.mysql.jdbc.Driver");
         java.sql.Connection con = DriverManager.getConnection(
                 "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/rest", "sunny", "ajxx2020");
@@ -83,6 +81,6 @@ public class UserValidator {
     }
 
     public String getUserValidation() throws Exception {
-        return checkForNullOrEmpty(getUserName(),getPassword());
+        return checkForNullOrEmpty(getUserName(), getPassword());
     }
 }
