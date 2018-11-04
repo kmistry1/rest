@@ -1,6 +1,7 @@
 package com.validate;
 
 
+import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +14,7 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/api/resource/validation")
-    public Increment validator(@RequestParam(value="name") String userName,@RequestParam(value="password") String password) {
+    public Increment validator(@RequestParam(value="name") String userName,@RequestParam(value="password") String password) throws Exception {
 
         UserValidator userValidator = new UserValidator();
 
