@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -113,9 +113,12 @@ class Encryption {
 
     protected void setValues() throws SQLException, ClassNotFoundException {
 
-        Class.forName("com.mysql.jdbc.Driver");
-        java.sql.Connection con = DriverManager.getConnection(
-                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/encryption", "aesencryption", "qazmlp1947");
+        String databaseName = "encryption";
+        String dbUserName = "aesencryption";
+        String dbPassword = "qazmlp1947";
+
+        SqlConnection sqlConnection = new SqlConnection();
+        Connection con = sqlConnection.createNewConnection(databaseName, dbUserName, dbPassword);
 
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from aes_encryption where id = 1");

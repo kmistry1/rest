@@ -1,9 +1,10 @@
 package com.validate;
 
 import com.validate.aes.IEncryptionLoop;
+import com.validate.aes.SqlConnection;
 import org.apache.commons.lang3.StringUtils;
 
-import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,11 +62,13 @@ public class UserValidator {
     }
 
     protected String getPasswordFromDB(String userName) throws SQLException, ClassNotFoundException {
-
         String password = null;
-        Class.forName("com.mysql.jdbc.Driver");
-        java.sql.Connection con = DriverManager.getConnection(
-                "jdbc:mysql://sunny.ccy10divxtl4.us-east-2.rds.amazonaws.com/rest", "sunny", "ajxx2020");
+        String databaseName = "rest";
+        String dbUserName = "sunny";
+        String dbPassword = "ajxx2020";
+
+        SqlConnection sqlConnection = new SqlConnection();
+        Connection con = sqlConnection.createNewConnection(databaseName, dbUserName, dbPassword);
 
         Statement stmt = con.createStatement();
 
