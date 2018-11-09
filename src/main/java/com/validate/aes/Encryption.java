@@ -1,15 +1,15 @@
 package com.validate.aes;
 
 
+import com.validate.aes.unlock.Decryption;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,8 +30,9 @@ class Encryption {
 
     }
 
-    protected String getEncryptedString(String plainText) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, java.security.spec.InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, SQLException, ClassNotFoundException {
+    protected String getEncryptedString(String plainText) throws Exception {
         //get salt
+
         setValues();
         salt = generateSalt();
         byte[] saltBytes = salt.getBytes("UTF-8");
@@ -67,7 +68,7 @@ class Encryption {
         return getDecryptedString(encryptedText);
     }
 
-    protected String getDecryptedString(String encryptedText) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, SQLException, ClassNotFoundException {
+    protected String getDecryptedString(String encryptedText) throws Exception {
         setValues();
         String[] fields = encryptedText.split("]");
         byte[] saltBytes = Base64.decodeBase64(fields[0]);
@@ -111,14 +112,12 @@ class Encryption {
     }
 
 
-    protected void setValues() throws SQLException, ClassNotFoundException {
-
-        String databaseName = "encryption";
-        String dbUserName = "aesencryption";
-        String dbPassword = "qazmlp1947";
+    protected void setValues() throws Exception {
+        DBProperties properties = new DBProperties();
 
         SqlConnection sqlConnection = new SqlConnection();
-        Connection con = sqlConnection.createNewConnection(databaseName, dbUserName, dbPassword);
+        Decryption de =new Decryption();
+        Connection con = sqlConnection.createNewConnection(de.decrypt(properties.getDBProperties().getProperty("db.enc")), de.decrypt(properties.getDBProperties().getProperty("enc.username")), de.decrypt(properties.getDBProperties().getProperty("enc.dbPassword")));
 
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from aes_encryption where id = 1");

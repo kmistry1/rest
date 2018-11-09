@@ -3,7 +3,7 @@ package com.validate.aes;
 
 class EncryptionLoop implements IEncryptionLoop {
     static Encryption encryption = new Encryption();
-    private static int loop = 5;
+    private static int loop = 1;
 
     protected static String getSecureEncryptedString(String encrypt) throws Exception {
         for (int i = 0; i < loop; i++) {

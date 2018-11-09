@@ -14,7 +14,7 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/api/resource/validation")
-    public Increment validator(@RequestParam(value = "name") String userName, @RequestParam(value = "password") String password) throws Exception {
+    public Increment validator(@RequestParam(value = "username") String userName, @RequestParam(value = "password") String password) throws Exception {
 
         UserValidator userValidator = new UserValidator();
 

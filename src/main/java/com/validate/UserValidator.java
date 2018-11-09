@@ -1,7 +1,9 @@
 package com.validate;
 
+import com.validate.aes.DBProperties;
 import com.validate.aes.IEncryptionLoop;
 import com.validate.aes.SqlConnection;
+import com.validate.aes.unlock.Decryption;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
@@ -61,14 +63,13 @@ public class UserValidator {
         return false;
     }
 
-    protected String getPasswordFromDB(String userName) throws SQLException, ClassNotFoundException {
+    protected String getPasswordFromDB(String userName) throws Exception {
         String password = null;
-        String databaseName = "rest";
-        String dbUserName = "sunny";
-        String dbPassword = "ajxx2020";
 
+        DBProperties properties = new DBProperties();
         SqlConnection sqlConnection = new SqlConnection();
-        Connection con = sqlConnection.createNewConnection(databaseName, dbUserName, dbPassword);
+        Decryption de =new Decryption();
+        Connection con = sqlConnection.createNewConnection(de.decrypt(properties.getDBProperties().getProperty("db.data")), de.decrypt(properties.getDBProperties().getProperty("db.user")), de.decrypt(properties.getDBProperties().getProperty("db.password")));
 
         Statement stmt = con.createStatement();
 
