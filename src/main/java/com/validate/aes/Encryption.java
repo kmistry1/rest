@@ -125,7 +125,7 @@ class Encryption {
 
         while (rs.next()) {
             setPassword(rs.getString("aes_key"));
-            setPswdIterations(rs.getInt("Iterations"));
+            setPswdIterations(694);
             setKeySize(rs.getInt("Size"));
             setSaltlength(rs.getInt("Length"));
         }
