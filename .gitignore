@@ -30,3 +30,4 @@ gradle.xml
 build/*
 out/*
 vcs.xml
+.DS_Store
