@@ -75,9 +75,9 @@ dependencies {
     compile files('gradle/wrapper/validation.jar')
 }
 
-springBoot {
-    mainClassName = "com.webapp.app.Application"
-}
+//springBoot {
+//    mainClassName = "com.webapp.app.Application"
+//}
 buildscript {
     repositories {
         mavenLocal()
