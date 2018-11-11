@@ -28,4 +28,5 @@ gradle.xml
 .gradle/*
 .idea/*
 build/*
+out/*
 vcs.xml
