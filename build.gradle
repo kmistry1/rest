@@ -8,6 +8,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -63,23 +64,19 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.5'
 }
 
-task run(type: JavaExec, dependsOn: classes) {
-    main = 'com.webapp.app.Application'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task stage {
+task stage(type: JavaExec, dependsOn: classes) {
     dependsOn 'clean'
     dependsOn 'build'
+    mainClassName = "com.webapp.app.Application"
 }
 
 dependencies {
     compile files('gradle/wrapper/validation.jar')
 }
 
-//springBoot {
-//    mainClassName = "com.webapp.app.Application"
-//}
+springBoot {
+    mainClassName = "com.webapp.app.Application"
+}
 buildscript {
     repositories {
         mavenLocal()
@@ -91,8 +88,7 @@ buildscript {
     }
 }
 
-apply plugin: 'application'
-mainClassName = 'com.webapp.app.Application'
+
 applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 jar {
     manifest {
