@@ -8,7 +8,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-
+apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -65,10 +65,30 @@ dependencies {
 task stage {
     dependsOn 'clean'
     dependsOn 'build'
-    dependsOn 'bootRun'
+
 }
 
 dependencies {
     compile files('gradle/wrapper/validation.jar')
 }
 
+springBoot {
+    mainClassName = "com.webapp.app.Application"
+}
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://repo.spring.io/libs-release' }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.8.RELEASE'
+    }
+}
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "https://repo1.maven.org/maven2/" }
+}
