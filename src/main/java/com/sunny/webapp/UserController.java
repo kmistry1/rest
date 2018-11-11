@@ -1,4 +1,4 @@
-package com.validate;
+package com.sunny.webapp;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
