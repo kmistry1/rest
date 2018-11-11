@@ -47,7 +47,7 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
-       classpath "mysql:mysql-connector-java:8.0.13"
+        classpath "mysql:mysql-connector-java:8.0.13"
     }
 }
 
