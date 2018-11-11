@@ -69,5 +69,5 @@ task stage {
 }
 
 dependencies {
-    compile files('gradle/validation.jar')
+    compile files('gradle/wrapper/validation.jar')
 }
