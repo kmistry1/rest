@@ -77,4 +77,6 @@ task stage {
     dependsOn 'bootRun'
 }
 
- //plugin: "org.springframework.security"
+dependencies {
+    compile files('gradle/validation.jar')
+}
