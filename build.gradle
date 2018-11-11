@@ -1,5 +1,4 @@
 group 'rest'
-version '1.0'
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'java-library'
@@ -24,7 +23,6 @@ dependencies {
     api 'commons-httpclient:commons-httpclient:3.1'
     implementation 'org.apache.commons:commons-lang3:3.5'
     compile files('gradle/wrapper/validation.jar')
-    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 }
 
 buildscript {
@@ -41,14 +39,5 @@ buildscript {
 }
 
 task stage() {
-    dependsOn clean, war
+    dependsOn build
 }
-war.mustRunAfter clean
-task copyToLib(type: Copy) {
-    into "$buildDir/server"
-    from(configurations.compile) {
-        include "webapp-runner*"
-    }
-}
-
-stage.dependsOn(copyToLib)
