@@ -14,13 +14,13 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/api/resource/validation")
-    public Increment validator(@RequestParam(value = "username") String userName, @RequestParam(value = "password") String password) throws Exception {
+    public String validator(@RequestParam(value = "username") String userName, @RequestParam(value = "password") String password) throws Exception {
 
         UserValidator userValidator = new UserValidator();
 
         userValidator.setUserName(userName);
         userValidator.setPassword(password);
 
-        return new Increment(String.format(template, userValidator.getUserValidation()));
+        return new String(String.format(template, userValidator.getUserValidation()));
     }
 }

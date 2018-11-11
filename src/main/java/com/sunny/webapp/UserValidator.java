@@ -68,7 +68,10 @@ public class UserValidator {
         DBProperties properties = new DBProperties();
         SqlConnection sqlConnection = new SqlConnection();
         Decryption de = new Decryption();
-        Connection con = sqlConnection.createNewConnection(de.decrypt(properties.getDBProperties().getProperty("db.data")), de.decrypt(properties.getDBProperties().getProperty("db.user")), de.decrypt(properties.getDBProperties().getProperty("db.password")));
+        Connection con = sqlConnection.createNewConnection(de.decrypt(
+                properties.getDBProperties().getProperty("db.data")),
+                de.decrypt(properties.getDBProperties().getProperty("db.user")),
+                de.decrypt(properties.getDBProperties().getProperty("db.password")));
 
         Statement stmt = con.createStatement();
 
