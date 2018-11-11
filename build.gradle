@@ -67,7 +67,8 @@ dependencies {
 task stage(type: JavaExec, dependsOn: classes) {
     dependsOn 'clean'
     dependsOn 'build'
-    mainClassName = "com.webapp.app.Application"
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.webapp.app.Application"
 }
 
 dependencies {
@@ -97,3 +98,4 @@ jar {
                 'Main-Class': 'com.webapp.app.Application'
     }
 }
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
