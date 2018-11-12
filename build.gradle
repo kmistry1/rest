@@ -45,7 +45,9 @@ springBoot {
 }
 bootJar {
     classifier = 'boot'
-    mainClassName = 'com.webapp.app.Application'
+    springBoot {
+        mainClassName = 'com.webapp.app.Application'
+    }
     //from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
