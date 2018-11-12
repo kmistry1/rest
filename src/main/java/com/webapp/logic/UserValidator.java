@@ -3,8 +3,10 @@ package com.webapp.logic;
 import com.validate.aes.encryption.IEncryptionLoop;
 import com.validate.aes.encryption.SqlConnection;
 import org.apache.commons.lang3.StringUtils;
-//jar cvf program.jar -C path .
+
 import static com.validate.aes.encryption.ErrorCodes.*;
+
+//jar cvf program.jar -C path .
 
 
 public class UserValidator {
@@ -18,11 +20,11 @@ public class UserValidator {
         SqlConnection Connection = new SqlConnection();
         String passwordFromDB = Connection.getPasswordFromDB(userName);
 
-        if (StringUtils.isBlank(username)){
+        if (StringUtils.isBlank(username)) {
             return USERNAME_ERROR;
         }
 
-        if (StringUtils.isBlank(password)){
+        if (StringUtils.isBlank(password)) {
             return PASSWORD_ERROR;
         }
 
