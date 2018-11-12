@@ -6,10 +6,12 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-
+apply plugin: 'application'
 repositories {
     mavenCentral()
 }
+mainClassName = "com.webapp.app.Application"
+applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -38,10 +40,13 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
     }
 }
-
+springBoot {
+    mainClassName = 'com.webapp.app.Application'
+}
 bootJar {
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    classifier = 'boot'
+    mainClassName = 'com.webapp.app.Application'
+    //from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 bootWar {
@@ -52,3 +57,9 @@ bootWar {
 task stage() {
     dependsOn build, bootWar, bootJar
 }
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
