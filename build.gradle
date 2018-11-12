@@ -10,25 +10,20 @@ apply plugin: 'application'
 repositories {
     mavenCentral()
 }
-mainClassName = "com.webapp.app.Application"
-applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
+
+
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile 'mysql:mysql-connector-java:8.0.13'
     compile 'org.springframework.security:spring-security-acl:4.2.9.RELEASE'
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('com.jayway.jsonpath:json-path')
-    testCompile group: 'junit', name: 'junit', version: '4.11'
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
     testCompile 'junit:junit:4.12'
     api 'commons-httpclient:commons-httpclient:3.1'
     implementation 'org.apache.commons:commons-lang3:3.5'
     compile files('gradle/wrapper/validation.jar')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat");
 }
-
+mainClassName = 'com.webapp.app.Application'
 buildscript {
 
     repositories {
@@ -40,19 +35,22 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
     }
 }
-springBoot {
-    mainClassName = 'com.webapp.app.Application'
-}
+
 bootJar {
     classifier = 'boot'
     springBoot {
         mainClassName = 'com.webapp.app.Application'
     }
-    //from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 bootWar {
-
+    classifier = 'boot'
+    springBoot {
+        mainClassName = 'com.webapp.app.Application'
+    }
+    applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
@@ -60,8 +58,4 @@ task stage() {
     dependsOn build, bootWar, bootJar
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-}
 
