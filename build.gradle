@@ -37,21 +37,13 @@ buildscript {
 }
 
 bootJar {
-    classifier = 'boot'
-    springBoot {
-        mainClassName = 'com.webapp.app.Application'
-    }
+    baseName = 'rest-app'
     applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 bootWar {
-    classifier = 'boot'
-    springBoot {
-        mainClassName = 'com.webapp.app.Application'
-    }
+    baseName = 'rest-app'
     applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 task stage() {
