@@ -1,1 +1,1 @@
-web: java -jar build/libs/rest-app.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/rest-app.jar
