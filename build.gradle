@@ -22,7 +22,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     api 'commons-httpclient:commons-httpclient:3.1'
     implementation 'org.apache.commons:commons-lang3:3.5'
-    compile files('gradle/wrapper/validation.jar')
     compile group: 'org.springframework.cloud', name: 'spring-cloud-config-server', version: '2.0.1.RELEASE'
 
 }

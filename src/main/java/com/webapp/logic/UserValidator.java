@@ -15,35 +15,35 @@ public class UserValidator {
     private String password;
 
 
-    private String buildErrorCode(String username, String password) throws Exception {
+    private boolean buildErrorCode(String username, String password) throws Exception {
 
         SqlConnection Connection = new SqlConnection();
         String passwordFromDB = Connection.getPasswordFromDB(userName);
 
         if (StringUtils.isBlank(username)) {
-            return USERNAME_ERROR;
+            return false;
         }
 
         if (StringUtils.isBlank(password)) {
-            return PASSWORD_ERROR;
+            return false;
         }
 
         if (StringUtils.isBlank(passwordFromDB)) {
-            return INVALID_CREDENTIALS;
+            return false;
         } else {
             if (password.equals(IEncryptionLoop.decrypt(passwordFromDB))) {
-                return SUCCESS;
+                return true;
             }
 
             if (!password.equals(IEncryptionLoop.decrypt(passwordFromDB))) {
-                return INVALID_CREDENTIALS;
+                return false;
             }
         }
 
-        return OTHER_ERR;
+        return false;
     }
 
-    public String getUserValidation() throws Exception {
+    public boolean getUserValidation() throws Exception {
         return buildErrorCode(getUserName(), getPassword());
     }
 
